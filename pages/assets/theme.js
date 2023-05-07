@@ -1,5 +1,5 @@
 /*!
-  * Leap Bootstrap Theme
+  * bioagrifutura Bootstrap Theme
   * Copyright 2018-2019 Medium Rare (undefined)
   */
 (function (global, factory) {
@@ -2743,7 +2743,7 @@
         if (apiKey !== '') {
           var script = document.createElement('script');
           script.type = 'text/javascript';
-          script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=theme.mrMaps.init";
+          script.src = "https://maps.googbioagrifuturais.com/maps/api/js?key=" + apiKey + "&callback=theme.mrMaps.init";
           script.className = 'gMapsAPI';
           document.body.appendChild(script);
         }
