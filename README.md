@@ -1,11 +1,11 @@
 # README #
 
-Leap Bootstrap Theme by Medium Rare
+Bioagrifutura Bootstrap Theme 
 
 ### Where are the docs? ###
 
-* Formal documentation is located at http://leap.mediumra.re/documentation/index.html - accessible from the **Documentation** link on most demo pages.
-* You can find lists of the styled components at pages/components-leap.html and pages/components-bootstrap.html
+* Formal documentation is located at http://bioagrifutura.it/documentation/index.html - accessible from the **Documentation** link on most demo pages.
+
 
 ### Getting Set Up (optional) ###
 
@@ -17,14 +17,4 @@ The short version:
 * npm install
 * gulp
 
-### Getting Support ###
 
-Medium Rare provides support for bugfixes and guidance on using the theme.
-
-To access support, find the support link in your Bootstrap Marketplace dashboard.
-
-### Giving Feedback ###
-
-We strive to improve our products and we rely on feedback from our customers.
-
-Please feel free to share any feedback about Leap via twitter @mrareweb or feedback(at)mrare.co.
