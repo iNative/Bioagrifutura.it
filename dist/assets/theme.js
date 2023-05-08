@@ -3,10 +3,10 @@
   * Copyright 2018-2019 Medium Rare (undefined)
   */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('aos'), require('jquery'), require('jquery-countdown'), require('scrollmonitor'), require('flickity'), require('ion-rangeslider'), require('isotope-layout'), require('jarallax'), require('plyr'), require('prismjs'), require('smooth-scroll'), require('twitter-fetcher'), require('typed.js')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'aos', 'jquery', 'jquery-countdown', 'scrollmonitor', 'flickity', 'ion-rangeslider', 'isotope-layout', 'jarallax', 'plyr', 'prismjs', 'smooth-scroll', 'twitter-fetcher', 'typed.js'], factory) :
-  (global = global || self, factory(global.theme = {}, global.AOS, global.jQuery, null, global.scrollMonitor, global.Flickity, null, global.Isotope, global.jarallax, global.Plyr, global.Prism, global.SmoothScroll, global.twitterFetcher, global.Typed));
-}(this, function (exports, AOS, jQuery$1, jqueryCountdown, scrollMonitor, Flickity, ionRangeslider, Isotope$1, jarallax, Plyr, Prism, SmoothScroll, twitterFetcher, Typed) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('aos'), require('jquery'), require('jquery-countdown'), require('scrollmonitor'), require('flickity'), require('ion-rangeslider'), require('isotope-layout'), require('jarallax'), require('plyr'), require('prismjs'), require('smooth-scroll'), require('typed.js')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'aos', 'jquery', 'jquery-countdown', 'scrollmonitor', 'flickity', 'ion-rangeslider', 'isotope-layout', 'jarallax', 'plyr', 'prismjs', 'smooth-scroll', 'typed.js'], factory) :
+  (global = global || self, factory(global.theme = {}, global.AOS, global.jQuery, null, global.scrollMonitor, global.Flickity, null, global.Isotope, global.jarallax, global.Plyr, global.Prism, global.SmoothScroll,  global.Typed));
+}(this, function (exports, AOS, jQuery$1, jqueryCountdown, scrollMonitor, Flickity, ionRangeslider, Isotope$1, jarallax, Plyr, Prism, SmoothScroll, Typed) { 'use strict';
 
   AOS = AOS && AOS.hasOwnProperty('default') ? AOS['default'] : AOS;
   jQuery$1 = jQuery$1 && jQuery$1.hasOwnProperty('default') ? jQuery$1['default'] : jQuery$1;
@@ -17,7 +17,7 @@
   Plyr = Plyr && Plyr.hasOwnProperty('default') ? Plyr['default'] : Plyr;
   Prism = Prism && Prism.hasOwnProperty('default') ? Prism['default'] : Prism;
   SmoothScroll = SmoothScroll && SmoothScroll.hasOwnProperty('default') ? SmoothScroll['default'] : SmoothScroll;
-  twitterFetcher = twitterFetcher && twitterFetcher.hasOwnProperty('default') ? twitterFetcher['default'] : twitterFetcher;
+
   Typed = Typed && Typed.hasOwnProperty('default') ? Typed['default'] : Typed;
 
   //
@@ -3468,199 +3468,7 @@
     return Sticky;
   }(jQuery$1);
 
-  var mrTwitterFetcher = function ($) {
-    /**
-     * Check for twitterFetcher dependency
-     * twitterFetcher - https://github.com/jasonmayes/Twitter-Post-Fetcher
-     */
-    if (typeof twitterFetcher === 'undefined') {
-      throw new Error('mrTwitterFetcher requires twitterFetcher.js (https://github.com/jasonmayes/Twitter-Post-Fetcher)');
-    }
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-
-    var NAME = 'mrTwitterFetcher';
-    var VERSION = '1.0.0';
-    var DATA_KEY = 'mr.twitterFetcher';
-    var EVENT_KEY = "." + DATA_KEY;
-    var DATA_API_KEY = '.data-api';
-    var JQUERY_NO_CONFLICT = $.fn[NAME];
-    var Event = {
-      LOAD_DATA_API: "load" + EVENT_KEY + DATA_API_KEY,
-      RESIZE: "resize" + EVENT_KEY,
-      READY: "ready" + EVENT_KEY,
-      APPEND: "tweetAppended" + EVENT_KEY
-    };
-    var Selector = {
-      DATA_ATTR: 'twitter-fetcher',
-      DATA_TWITTER_FETCHER: '[data-twitter-fetcher]',
-      DATA_TWITTER: 'data-twitter',
-      USER: '.user',
-      TWEET: '.tweet',
-      TIME_POSTED: '.timePosted',
-      INTERACT: '.interact'
-    };
-    var Defaults = {
-      USERNAME: 'twitter',
-      MAX_TWEETS: 6
-    };
-    var Options = {
-      USERNAME: 'username',
-      MAX_TWEETS: 'max-tweets',
-      FLICKITY: 'flickity',
-      SLIDER: 'twitterFlickity',
-      ISOTOPE: 'isotope'
-    };
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
-    var TwitterFetcher =
-    /*#__PURE__*/
-    function () {
-      function TwitterFetcher(element) {
-        var $element = $(element);
-        this.element = element;
-        this.element.id = "tweets-" + new Date().getTime();
-        this.username = $element.data(Options.USERNAME).replace('@', '') || Defaults.USERNAME;
-        this.maxTweets = parseInt($element.data(Options.MAX_TWEETS), 10) || Defaults.MAX_TWEETS; // Check if data-twitter-slider is options object, plain attribute or not present.
-
-        this.slider = this.element.getAttribute(Selector.DATA_TWITTER + "-" + Options.FLICKITY) !== null;
-        this.slider = this.slider && typeof $element.data(Options.SLIDER) === 'object' ? $element.data(Options.SLIDER) : this.slider; // Check if data-twitter-isotope is present.
-
-        this.isotope = this.element.getAttribute(Selector.DATA_TWITTER + "-" + Options.ISOTOPE) !== null;
-        this.initTwitterFeed();
-      } // getters
-
-
-      var _proto = TwitterFetcher.prototype;
-
-      _proto.initTwitterFeed = function initTwitterFeed() {
-        var _this = this;
-
-        this.config = {
-          profile: {
-            screenName: this.username
-          },
-          domId: this.element.id,
-          maxTweets: this.maxTweets,
-          enableLinks: true,
-          showUser: true,
-          showTime: true,
-          dateFunction: '',
-          showRetweet: false,
-          customCallback: function customCallback(tweets) {
-            var $element = $(_this.element);
-            var html;
-            var template = $element.children().first().detach();
-            var x = tweets.length;
-            var n = 0;
-
-            while (n < x) {
-              var tweetContent = $('<div>').append($(tweets[n]));
-              var templateClone = template.clone();
-              templateClone.find(Selector.TWEET).html(tweetContent.find(Selector.TWEET).html());
-              templateClone.find(Selector.USER).html(tweetContent.find(Selector.USER).html());
-              templateClone.find(Selector.TIME_POSTED).html(tweetContent.find(Selector.TIME_POSTED).html());
-              templateClone.find(Selector.INTERACT).html(tweetContent.find(Selector.INTERACT).html());
-              $element.append(templateClone);
-              n += 1; // Fire an event when each tweet is added to the div
-
-              var appendEvent = $.Event(Event.APPEND);
-              appendEvent.appendedElement = templateClone;
-              appendEvent.mrTwitterFetcher = _this;
-              $(_this.element).trigger(appendEvent);
-            }
-
-            if (_this.slider === true || typeof _this.slider === 'object') {
-              // Check for Flickity dependency
-              if (typeof Flickity === 'undefined') {
-                throw new Error('mrTwitterFetcher requires flickity.js (https://github.com/metafizzy/flickity)');
-              } else {
-                $element.data('flickity', new Flickity(_this.element, _this.slider));
-              }
-            } else if (_this.isotope === true) {
-              // Check for Isotope dependency
-              if (typeof Isotope === 'undefined') {
-                throw new Error('mrTwitterFetcher requires isotope.js (https://github.com/metafizzy/isotope)');
-              } else {
-                $(_this.element).mrIsotope();
-              }
-            } // Fire an event for tweets ready
-
-
-            var readyEvent = $.Event(Event.READY);
-            readyEvent.mrTwitterFetcher = _this;
-            $(_this.element).trigger(readyEvent);
-            return html;
-          }
-        };
-        twitterFetcher.fetch(this.config);
-      };
-
-      TwitterFetcher.jQueryInterface = function jQueryInterface() {
-        return this.each(function jqEachTwitterFetcher() {
-          var $element = $(this);
-          var data = $element.data(DATA_KEY);
-
-          if (!data) {
-            data = new TwitterFetcher(this);
-            $element.data(DATA_KEY, data);
-          }
-        });
-      };
-
-      _createClass(TwitterFetcher, null, [{
-        key: "VERSION",
-        get: function get() {
-          return VERSION;
-        }
-      }]);
-
-      return TwitterFetcher;
-    }();
-    /**
-     * ------------------------------------------------------------------------
-     * Initialise by data attribute
-     * ------------------------------------------------------------------------
-     */
-
-
-    $(window).on(Event.LOAD_DATA_API, function () {
-      var twitterFetcherElements = $.makeArray($(Selector.DATA_TWITTER_FETCHER));
-      /* eslint-disable no-plusplus */
-
-      for (var i = twitterFetcherElements.length; i--;) {
-        var $twitterFetcher = $(twitterFetcherElements[i]);
-        TwitterFetcher.jQueryInterface.call($twitterFetcher, $twitterFetcher.data());
-      }
-    });
-    /**
-     * ------------------------------------------------------------------------
-     * jQuery
-     * ------------------------------------------------------------------------
-     */
-
-    /* eslint-disable no-param-reassign */
-
-    $.fn[NAME] = TwitterFetcher.jQueryInterface;
-    $.fn[NAME].Constructor = TwitterFetcher;
-
-    $.fn[NAME].noConflict = function TwitterFetcherNoConflict() {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return TwitterFetcher.jQueryInterface;
-    };
-    /* eslint-enable no-param-reassign */
-
-
-    return TwitterFetcher;
-  }(jQuery$1);
+ 
 
   var mrTypedText = function ($) {
     /**
@@ -3809,7 +3617,7 @@
   exports.mrReadingPosition = mrReadingPosition;
   exports.mrSmoothScroll = mrSmoothScroll;
   exports.mrSticky = mrSticky;
-  exports.mrTwitterFetcher = mrTwitterFetcher;
+  
   exports.mrTypedText = mrTypedText;
   exports.mrUtil = mrUtil;
 
